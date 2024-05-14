@@ -26,6 +26,7 @@ const MakeBlogg = ({ onAddBlog }) => {
     <div className="form-container">
       <h2>Create a New Blog</h2>
       <form onSubmit={handleSubmit} className="form">
+
         <div className="form-input">
           <label>Title:</label>
           <input
@@ -34,6 +35,7 @@ const MakeBlogg = ({ onAddBlog }) => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
+
         <div className="form-input">
           <label>Blog Text:</label>
           <textarea
@@ -42,6 +44,7 @@ const MakeBlogg = ({ onAddBlog }) => {
             onChange={(e) => setBlogText(e.target.value)}
           ></textarea>
         </div>
+        
         <div className="form-input">
           <label>Category:</label>
           <select
@@ -54,6 +57,7 @@ const MakeBlogg = ({ onAddBlog }) => {
             <option value="News">News</option>
           </select>
         </div>
+
         <p>Author: {userName} (You)</p>
         <button type="submit" className="submit-button">Submit</button>
       </form>

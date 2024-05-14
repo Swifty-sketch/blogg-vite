@@ -1,22 +1,33 @@
-import { Link } from "react-router-dom"
-
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
-
 import { FaRegPlusSquare } from "react-icons/fa";
+import { auth } from "../firebase";
 
 const Navbar = () => {
+  const { user, userName } = useContext(UserContext);
 
-  const { userName } = useContext(UserContext); 
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
-    <ul className = "navbar">
-      <li id = "Name"><h1>Blogg.se</h1></li>
-      <li><p className = "navClick">Logged in: {userName}</p></li>
-      <li><Link className = "navClick makeBloggIcon" to="/MakeBlogg"><FaRegPlusSquare /></Link></li>
-      <li><Link className = "navClick" to="/Explore">Explore</Link></li>
-      <li><Link className = "navClick" to="/">Home</Link></li>
+    <ul className="navbar">
+      <li id="Name"><h1>Blogg.se</h1></li>
+      {user && (
+        <>
+          <li><button onClick={handleLogout} className="navClick">Logout</button></li>
+          <li><Link className="navClick makeBloggIcon" to="/MakeBlogg"><FaRegPlusSquare /></Link></li>
+          <li><Link className="navClick" to="/Explore">Explore</Link></li>
+        </>
+      )}
+      <li><Link className="navClick" to="/">Home</Link></li>
     </ul>  
   )
 }
 
-export default Navbar
+export default Navbar;

@@ -1,18 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { auth } from "../firebase";
 
-// Skapa en ny kontext
 export const UserContext = createContext();
 
-// Skapa en komponent som innehåller state du vill dela
 export const UserProvider = (props) => {
-  const [userName, setUserName] = useState("Marsel");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
-    <UserContext.Provider value={{ userName, setUserName, isLoggedIn }}>
+    <UserContext.Provider value={{ user }}>
       {props.children}
     </UserContext.Provider>
   );
 };
-
-export default UserContext;

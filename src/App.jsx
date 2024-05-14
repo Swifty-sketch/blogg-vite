@@ -1,18 +1,36 @@
-import { useState, useEffect } from "react";
+// App.jsx
+
+import { useState } from "react";
+import { useEffect } from "react";
 import Navbar from "./comp/Navbar";
 import Hero from "./comp/Hero";
 import Explore from "./pages/Explore";
 import MakeBlogg from "./pages/MakeBlogg";
+import LoginForm from "./comp/LoginForm";
+import SignUpForm from "./comp/SignUpForm";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useContext } from "react";
 import { UserContext } from "./comp/UserContext";
-import blogData from "./blogData.json"; // Importing the JSON file
+import { auth } from "./firebase";
+import blogData from "./blogData.json";
 
 function App() {
   const [blogPosts, setBlogPosts] = useState(
     JSON.parse(localStorage.getItem("blogPosts")) || blogData
   );
-  const { isLoggedIn } = useContext(UserContext);
+  const [user, setUser] = useState(null);
+  const [showSignUp, setShowSignUp] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("blogPosts", JSON.stringify(blogPosts));
@@ -39,12 +57,17 @@ function App() {
     setBlogPosts(updatedBlogs);
   };
 
+  const toggleSignUp = () => {
+    setShowSignUp(!showSignUp);
+  };
+
   return (
     <Router>
-      <Navbar />
-      {isLoggedIn ? (
-        <Switch>
-          {/* Home */}
+      <UserContext.Provider value={{ user }}>
+        <Navbar />
+        {user ? (
+          <Switch>
+            {/* Home */}
           <Route exact path="/">
             {/* Props */}
             <Hero
@@ -69,10 +92,14 @@ function App() {
               }}
             />
           </Route>
-        </Switch>
-      ) : (
-        alert("Not logged in")
-      )}
+          </Switch>
+        ) : (
+          <div>
+            <LoginForm toggleSignUp={toggleSignUp} />
+            {showSignUp && <SignUpForm />}
+          </div>
+        )}
+      </UserContext.Provider>
     </Router>
   );
 }
