@@ -40,10 +40,10 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
     setEditablePostId(null);
   };
 
-  // Function to handle key press events in the textarea
+  
   const handleKeyPress = (event, postId) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // Prevent the default behavior of the Enter key
+      event.preventDefault();
       handleSave(postId); // Call the save function
     }
   };
