@@ -1,22 +1,32 @@
-import React, { useState, useContext } from "react";
-import { UserContext } from "../comp/UserContext";
+import React, { useState, useContext, useEffect } from "react";
 import { MdDeleteOutline, MdEdit } from "react-icons/md";
+import { UserContext } from "../comp/UserContext";
 import '../Hero.css';
 
 const Hero = ({ blogPosts, removeBlog, editBlog }) => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortBy, setSortBy] = useState("newest");
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [editablePostId, setEditablePostId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const { userName } = useContext(UserContext);
 
-  // Function to sort blog posts based on sorting criteria and show max 3 posts
-  const sortedAndLimitedBlogPosts = () => {
-    if (sortBy === "newest") {
-      return blogPosts.slice().sort((a, b) => b.id - a.id).slice(0, 3);
-    } else {
-      return blogPosts.slice().sort((a, b) => a.id - b.id).slice(0, 3);
+  useEffect(() => {
+    let filtered = blogPosts;
+
+    if (selectedCategory) {
+      filtered = filtered.filter((post) => post.category === selectedCategory);
     }
-  };
+
+    if (sortBy === "newest") {
+      filtered = filtered.slice().sort((a, b) => b.id - a.id);
+    } else {
+      filtered = filtered.slice().sort((a, b) => a.id - b.id);
+    }
+
+    setFilteredPosts(filtered.slice(0, 3)); // Limiting to max 3 posts
+
+  }, [blogPosts, selectedCategory, sortBy]);
 
   // Function to handle editing of a blog post
   const handleEdit = (postId, text) => {
@@ -56,16 +66,37 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
             >
               Oldest
             </button>
+            <h1>Category:</h1>
+            {["Gaming", "Food", "News"].map(category => (
+              <button
+                key={category}
+                className={`filterButton ${
+                  selectedCategory === category ? "active" : ""
+                }`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+            <button
+              className={`filterButton ${
+                !selectedCategory ? "active" : ""
+              }`}
+              onClick={() => setSelectedCategory(null)}
+            >
+              All
+            </button>
           </div>
-          {sortedAndLimitedBlogPosts().map((post) => (
+          {/* Render blog posts */}
+          {filteredPosts.map((post) => (
             <div className="blogPost" key={post.id}>
               <h2>
                 {post.title}
                 {post.author === userName && (
                   <>
                     <MdDeleteOutline onClick={() => removeBlog(post.id)} className="removeButton">
-                      Remove 
-                    </MdDeleteOutline> 
+                      Remove
+                    </MdDeleteOutline>
                     {editablePostId === post.id ? (
                       <MdEdit onClick={() => handleSave(post.id)} />
                     ) : (
@@ -74,7 +105,6 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
                   </>
                 )}
               </h2>
-              
               <div className="blogContent">
                 {editablePostId === post.id ? (
                   <textarea
@@ -90,7 +120,6 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
             </div>
           ))}
         </div>
-
         <div className="randomTextContainer">
           <h3>News:</h3>
           <p>Drake vs Kendrick Lamar!!</p>
@@ -101,4 +130,3 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
 };
 
 export default Hero;
-  
