@@ -120,10 +120,6 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
             </div>
           ))}
         </div>
-        <div className="randomTextContainer">
-          <h3>News:</h3>
-          <p>Drake vs Kendrick Lamar!!</p>
-        </div>
       </div>
     </div>
   );

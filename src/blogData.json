@@ -1,24 +1,17 @@
 [
     {
       "id": 1,
-      "blogText": "Suppose I'm looking at a sentfrom Igbo.Suppose I'm looking at a sentfrom Igbo.Suppose I'm looking at a sentfrom Igbo.Suppose I'm looking at a sentfrom Igbo.",
+      "blogText": "This is a blogg posted by a different user.",
       "author": "John Doe",
-      "title": "Title 1",
-      "category": "food"
+      "title": "This is test blogg",
+      "category": "News"
     },
     {
       "id": 2,
-      "blogText": "This is the second blog post.",
-      "author": "Jane Smith",
-      "title": "How to make pasta",
-      "category": "gaming"
-    },
-    {
-      "id": 3,
-      "blogText": "This is the third blog post.",
-      "author": "Alice Johnson",
-      "title": "Lottery winner loses money in 1 week",
-      "category": "news"
+      "blogText": "You are not able to edit or delete this blogg",
+      "author": "Adam Gustav",
+      "title": "Food blogg",
+      "category": "Food"
     }
   ]
   

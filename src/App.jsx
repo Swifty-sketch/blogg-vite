@@ -1,9 +1,7 @@
-// App.jsx
-
 import { useState } from "react";
 import { useEffect } from "react";
 import Navbar from "./comp/Navbar";
-import Hero from "./comp/Hero";
+import Hero from "./pages/Hero";
 import Explore from "./pages/Explore";
 import MakeBlogg from "./pages/MakeBlogg";
 import LoginForm from "./comp/LoginForm";

@@ -5,13 +5,9 @@ import React, {
   useEffect,
   useContext
 } from "react";
-import {
-  UserContext
-} from "../comp/UserContext";
-import {
-  MdDeleteOutline,
-  MdEdit
-} from "react-icons/md";
+
+import { UserContext } from "../comp/UserContext";
+import { MdDeleteOutline, MdEdit} from "react-icons/md";
 import "../explore.css";
 
 const Explore = () => {

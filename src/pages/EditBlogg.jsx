@@ -41,7 +41,7 @@ const MakeBlogg = ({ onAddBlog }) => {
           ></textarea>
         </div>
         {/* Display the author */}
-        <p>Author: {userName} (You)</p>
+        <p>Author: (You)</p>
         <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
