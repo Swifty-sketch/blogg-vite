@@ -115,7 +115,7 @@ const Hero = ({ blogPosts, removeBlog, editBlog }) => {
                 ) : (
                   <h3>{post.blogText}</h3>
                 )}
-                <p>Author: {post.author}</p>
+                <p>Author: {post.author} {post.author === userName && "(You)"}</p>
               </div>
             </div>
           ))}
